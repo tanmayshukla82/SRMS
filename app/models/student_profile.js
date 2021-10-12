@@ -6,15 +6,12 @@ const student_model = new mongoose.Schema({
         type:Number,
         min:1,
         max:8,
-        required:[true,'Semester required']
     },
     Course:{
         type:String,
-        required:[true,'Course name required']
     },
     Branch:{
         type:String,
-        required:[true,'Branch name required']
     },
     DOB:{
         type:String,
@@ -26,18 +23,15 @@ const student_model = new mongoose.Schema({
     },
     Admission_number:{
         type:Number,
-        required:[true,'Admission Number required'],
         unique:true
     },
     University_roll_num:
     {
         type:Number,
-        required:[true, 'University Roll number required'],
         unique:true
     },
     Email : {
         type:String,
-        required:[true,'Email reqired'],
         unique:true,
         trim:true,
         validate:{
@@ -50,7 +44,6 @@ const student_model = new mongoose.Schema({
     phone_number:{
         type:String,
         max:10,
-        required:[true,'Phone number required'],
         unique:true
     }
 

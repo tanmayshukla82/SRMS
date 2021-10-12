@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const Student = require("../app/models/student_register");
+const Student = require("../app/models/student_profile");
 const router = new Router();
 
 router.get('/get-student',async(req,res)=>{

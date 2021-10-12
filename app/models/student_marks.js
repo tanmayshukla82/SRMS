@@ -6,11 +6,14 @@ const Subject = require('./student_subject');
 const marksSchema = new mongoose.Schema({
     student : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : Student
+        ref : 'Student'
     },
     subject : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : Subject
+        ref : 'Subject'
+    },
+    department : {
+        type : String,
     },
     semester:{
         type : Number
