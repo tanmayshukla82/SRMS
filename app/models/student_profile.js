@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const student_model = new mongoose.Schema({
+    
     Name : String,
     Semester : {
         type:Number,
@@ -25,10 +26,13 @@ const student_model = new mongoose.Schema({
         type:Number,
         unique:true
     },
-    University_roll_num:
+    registrationNumber:
     {
-        type:Number,
+        type:String,
         unique:true
+    },
+    Department :{
+        type : String,
     },
     Email : {
         type:String,
@@ -45,6 +49,24 @@ const student_model = new mongoose.Schema({
         type:String,
         max:10,
         unique:true
+    },
+    subjects : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Subject'
+    }],
+    aadharCard : {
+        type : Number,
+        required : true
+    },
+    gender : {
+        type : String
+    },
+    password : {
+        type : String
+    },
+    role: {
+        type: String,
+        default: "student"
     }
 
 },{

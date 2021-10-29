@@ -25,6 +25,10 @@ const marksSchema = new mongoose.Schema({
         type : Number,
         default : 0
     },
+    marksObtained : {
+        type : Number,
+        default : 0
+    },
     totalMarks : {
         type : Number,
         default : 100
