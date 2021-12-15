@@ -1,0 +1,32 @@
+<div class="m-auto w-2/5 scrollable">
+    <form action="/publish" method="post" class="p-8 border rounded-md border-green-500">
+       <%if(messages.error){%>
+        <span class="text-red-500 text-sm"><%= messages.error%></span>
+      <%}else if(messages.success){%>
+        <span class="text-green-500 text-sm"><%= messages.success%></span>
+      <%}%>
+        <div class="container">
+           
+          <label for="batch"><b>Batch</b></label>
+          <input type="text" placeholder="batch" name="batch" required>  
+
+          <label for="semester"><b>Semester</b></label>
+          <input type="text" placeholder="semester" name="semester" required>  
+
+          <label for="examType"><b>Exam Type</b></label>
+          <input type="text" placeholder="Exam Type" name="examType" required>
+          
+           <div>
+                    <label for="department" class="stud-label"><b>Department</b></label>
+                    <br>
+                    <select name="Department" class="w-full mb-2">
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Civil">Civil</option>
+                    </select>
+            </div>
+
+          <button type="submit" class="registerbtn">Search</button>
+        </div>
+      </form>
+</div>

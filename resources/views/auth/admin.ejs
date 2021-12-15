@@ -1,0 +1,19 @@
+
+<div class="bg-img">
+  <div class="containerForm">
+    <form action="/adminLogin" method="post" class="mb-4">
+    <%if(messages.error){%>
+        <span class="text-red-500 text-sm"><%= messages.error%></span>
+        <%}%>
+    <h1>Login</h1>
+
+    <label for="registrationNumber"><b>Registration Number</b></label>
+    <input type="text" placeholder="Registration Number" name="registrationNumber" required>
+
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+
+    <button type="submit" class="btn">Login</button>
+  </form>
+  </div>
+</div>

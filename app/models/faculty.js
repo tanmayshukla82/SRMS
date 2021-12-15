@@ -4,14 +4,14 @@ const facultySchema = mongoose.Schema({
     name : {
         type : String
     },
-    DOB : {
-        type : Date
+    dob: {
+        type : String
     },
     email : {
         type : String,
         required : true,
         unique : true,
-        validate : validator.isEmail()
+        // validate : validator.isEmail()
     },
     password: {
         type: String,
@@ -22,29 +22,20 @@ const facultySchema = mongoose.Schema({
     gender: {
         type: String,
     },
-    designation: {
-        type: String,
-        required: true
-    },
-    department: {
-        type: String, 
-        required: true
-    },
     facultyMobileNumber: {
         type: Number
     },
     aadharCard: {
         type: Number
     },
-    joiningYear: {
-        type : Date,
-        required : true
-    },
     role: {
         type: String,
         default: "faculty"
-    }
-});
+    },
+    otp :{
+        type : String
+    },
+},{ timestamps : true });
 
 const Faculty = new mongoose.model('Faculty', facultySchema);
 module.exports = Faculty;

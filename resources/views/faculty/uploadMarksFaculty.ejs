@@ -1,0 +1,46 @@
+<div class="m-auto w-4/5 scrollable">
+    <form action="/uploadMarksFaculty" method="post">
+        <%if(messages.error){%>
+        <span class="text-red-500 text-sm"><%= messages.error%></span>
+      <%}else if(messages.success){%>
+        <span class="text-green-500 text-sm"><%= messages.success%></span>
+        <%}%>
+        <div class="container">
+           
+          <label for="subjectCode"><b>Subject Code</b></label>
+          <input type="text" placeholder="Subject Code" name="subjectCode" value="<%=messages.subjectCode%>" required>  
+          
+          <label for="examType"><b>ExamType</b></label>
+          <div class="mt-2">
+          <select name="examType" placehoder="Exam Type" class="w-full p-2">
+                <option value="Mid Term" class="text-gray-50">Mid Term</option>
+                <option value="End Term" class="text-gray-50">End Term</option>
+          </select>
+          </div>
+          <br>
+
+          <label for="totalMarks"><b>Total Marks</b></label>
+          <input type="text" placeholder="Total Marks" name="totalMarks" value="<%=messages.totalMarks%>" required>
+
+          <label for="semester"><b>Semester</b></label>
+          <input type="text" placeholder="Semester" name="semester" value="<%=messages.semester%>" required>
+
+          <label for="section"><b>Section</b></label>
+          <input type="text" placeholder="Section" name="section" value="<%=messages.section%>" required>
+
+          <label for="batch"><b>Batch</b></label>
+          <input type="text" placeholder="Year" name="batch" required>
+
+          <label for="Department"><b>Department</b></label>
+          <div class="my-2">
+          <select name="department" placehoder="Department" class="w-full p-2">
+                <option value="Computer Science" class="text-gray-50">Computer Science</option>
+                <option value="Mechanical" class="text-gray-50">Mechanical</option>
+          </select>
+          </div>
+
+
+          <button type="submit" class="registerbtn">Get Student</button>
+        </div>
+    </form>
+</div>

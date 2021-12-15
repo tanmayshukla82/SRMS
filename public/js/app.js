@@ -93,7 +93,30 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+var dropdown = document.getElementsByClassName("dropdown-btn");
 
+var _loop = function _loop(i) {
+  dropdown[i].addEventListener("click", function () {
+    dropdown[i].classList.toggle("active");
+    var dropdownContent = dropdown[i].nextElementSibling;
+
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+};
+
+for (var i = 0; i < dropdown.length; i++) {
+  _loop(i);
+}
+
+var download = document.getElementById("download");
+download.addEventListener("click", function (e) {
+  var pdf = document.getElementById("print");
+  html2pdf().from(pdf).save();
+});
 
 /***/ }),
 
@@ -104,7 +127,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nTypeError: this.getOptions is not a function\n    at Object.loader (D:\\WEB DEVELOPMENT PRACTICE\\STUDENT-RESULT MANAGEMENT\\node_modules\\sass-loader\\dist\\index.js:25:24)\n    at D:\\WEB DEVELOPMENT PRACTICE\\STUDENT-RESULT MANAGEMENT\\node_modules\\webpack\\lib\\NormalModule.js:316:20\n    at D:\\WEB DEVELOPMENT PRACTICE\\STUDENT-RESULT MANAGEMENT\\node_modules\\loader-runner\\lib\\LoaderRunner.js:367:11\n    at D:\\WEB DEVELOPMENT PRACTICE\\STUDENT-RESULT MANAGEMENT\\node_modules\\loader-runner\\lib\\LoaderRunner.js:233:18\n    at processTicksAndRejections (node:internal/process/task_queues:94:5)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 

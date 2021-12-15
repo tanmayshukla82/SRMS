@@ -1,0 +1,40 @@
+<div class="m-auto w-2/5 scrollable">
+    <form action="/postPublish" method="post" class="p-8 border rounded-md border-green-500">
+         <%if(messages.error){%>
+        <span class="text-red-500 text-sm"><%= messages.error%></span>
+        <%}else if(messages.success){%>
+        <span class="text-green-500 text-sm"><%= messages.success%></span>
+        <%}%>
+        <div class="container">
+             <div class="flex">
+                <h2 class="mr-2"><b>batch : </b></h2>
+                <input type="text" name="batch" value="<%=batch%>" class="registrationInput" readonly>
+            </div>
+            <div class="flex">
+                <h2 class="mr-2"><b>Exam : </b></h2>
+                <input type="text" name="examType" value="<%=examType%>" class="registrationInput" readonly>
+            </div>
+            <div class="flex">
+            <h2><b>Number of student with marks :</b></h2>
+            <h2 class="ml-2"><b><%=studentWithMarksLength%></b></h2>
+            </div>
+            <div class="flex">
+            <h2><b>Total number of subjects : </b></h2>
+            <h2 class="ml-2"><b><%=totalStudentLength%></b></h2>
+            </div>
+            <div class="mb-2">
+              <div class="flex">
+                <div>
+                    <input type="radio" name="publish" value="yes">
+                    <label for="yes">Publish</label>
+                </div>
+                <div>
+                    <input type="radio" name="publish" value="no">
+                    <label for="no">Don't Publish</label>
+                </div>
+              </div>
+              
+          </div>
+            <button type="submit" class="registerbtn">Publish</button>
+        </div>
+</div>

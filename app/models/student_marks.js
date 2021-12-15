@@ -18,6 +18,9 @@ const marksSchema = new mongoose.Schema({
     semester:{
         type : Number
     },
+    section:{
+        type : String
+    },
     examType : {
         type : String,
     },
@@ -32,6 +35,9 @@ const marksSchema = new mongoose.Schema({
     totalMarks : {
         type : Number,
         default : 100
+    },
+    batch : {
+        type : String
     }
 });
 

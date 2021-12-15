@@ -1,0 +1,30 @@
+
+<div class="bg-img">
+  <div class="containerForm">
+    <form action="/facultyLogin" method="post" class="mb-4">
+    <%if(messages.error){%>
+        <span class="text-red-500 text-sm"><%= messages.error%></span>
+        <%}%>
+    <h1>Login</h1>
+
+    <label for="registrationNumber"><b>Registration Number</b></label>
+    <input type="text" placeholder="Registration Number" name="registrationNumber" required>
+
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+
+    <button type="submit" class="btn" id="facultyLogin">Login</button>
+  </form>
+   <div class="flex justify-center">
+    <div><h3><b>Forgot Password</b></h3></div></div>
+   <form action="/facultyForgotPassword" method="post">
+      <%if(messages.error){%>
+        <span class="text-red-500 text-sm"><%= messages.error%></span>
+        <%}%>
+      <label for="email"><b>Email</b></label>
+      <input type="text" placeholder="Email" name="email" required>
+      <button type="submit" class="btn">Change Password</button>
+    </form>
+  </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="m-auto w-4/5 scrollable">
+    <form action="/addFaculty" method="post">
+      <%if(messages.error){%>
+        <span class="text-red-500 text-sm"><%= messages.error%></span>
+      <%}%>
+        <div class="container">
+           
+          <label for="name"><b>Name</b></label>
+          <input type="text" placeholder="Faculty's Name" name="name" id="name" value="<%=messages.name%>" required>  
+          
+          <label for="email"><b>Email</b></label>
+          <input type="text" placeholder="Enter Email" name="email" id="email" value="<%=messages.email%>" required>
+          
+          <label for="birthday" class="stud-label"><b>DOB</b></label>
+          <br>
+          <input type="text" placeholder="dd-mm-yyyy" class="dob" name="dob" value="<%=messages.dob%>">
+
+          <label for="phone"><b>Mobile Number</b></label>
+          <input type="text" placeholder="Mobile Number" name="facultyMobileNumber" value="<%=messages.facultyMobileNumber%>" required>
+
+          <label for="aadharCard"><b>Aadhar Card Number</b></label>
+          <input type="text" placeholder="Aadhar Card Number" name="aadharCard" value="<%=messages.aadharCard%>" required>
+
+          <div class="mb-2">
+              <label for="gender_heading"><b>Gender</b></label>
+              <br>
+              <div class="flex">
+                <div>
+                    <input type="radio" name="gender" value="Male" value="<%=messages.Male%>">
+                    <label for="male">Male</label>
+                </div>
+                <div>
+                    <input type="radio" name="gender" value="Female" value="<%=messages.Female%>">
+                    <label for="female">Female</label>
+                </div>
+              </div>
+              
+          </div>
+                
+          <button type="submit" class="registerbtn">Register</button>
+        </div>
+      </form>
+</div>

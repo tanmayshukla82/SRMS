@@ -1,0 +1,63 @@
+<script>
+  function validateForm(){
+  const mark = document.uploadMarksForm.mark;
+  const totalMarks = document.uploadMarksForm.totalMarks.value;
+  const arr = [];
+  for(let i=0;i<mark.length;i++)
+  {
+    arr.push(mark[i].value);
+  }
+  for(let i=0;i<arr.length;i++)
+    if(Number(arr[i])<0 || Number(arr[i])>Number(totalMarks))
+    {
+      alert("Mark entered are out of range");
+      return false;
+    }
+}
+</script>
+
+<div class="m-auto w-4/5 scrollable">
+   
+    <form action="/studentMarks" method="post" name="uploadMarksForm" onsubmit="return validateForm()">
+        <%if(messages.error){%>
+        <span class="text-red-500 text-sm"><%= messages.error%></span>
+        <%}%>
+        <div class="container">
+           
+          <label for="subjectCode"><b>Subject Code</b></label>
+          <input type="text" placeholder="Subject Code" name="subjectCode" value="<%=subjectCode%>" readonly>  
+          
+          <label for="ExamType"><b>ExamType</b></label>
+          <input name="examType" placehoder="Exam Type" class="w-full p-2 bg-white mb-4 mt-1" value="<%=examType%>" readonly>
+          
+          <label for="section"><b>Section</b></label>
+          <input type="text" placeholder="Section" name="section" value="<%=section%>" readonly>
+
+          <label for="semester"><b>Semester</b></label>
+          <input type="text" placeholder="Semester" name="semester" value="<%=semester%>" readonly>
+
+          <label for="totalMarks"><b>Total Marks</b></label>
+          <input type="text" placeholder="Toatl Marks" name="totalMarks" value="<%=totalMarks%>" readonly>
+
+          <label for="department"><b>Department</b></label>
+          <input type="text" placeholder="Department" name="department" value="<%=department%>" readonly>
+
+          <label for="batch"><b>Batch</b></label>
+          <input type="text" placeholder="Year" name="batch" value="<%=batch%>" readonly>
+
+          <%stud.forEach((s)=>{%>
+            <div class="flex items-center justify-between w-full mb-2 px-3 rounded-md bg-white">
+
+                    <input type="text" name="reg" value="<%=s.registrationNumber%>" class="font-bold inputMargin" readonly>
+                
+                    <input type="text" name="name" value="<%=s.Name%>"  class="font-bold inputMargin" readonly>
+                
+                    <input type="text" name="mark" placeholder="0" id="mark" class="font-bold bgG inputMargin" required>
+                
+            </div>
+          <%})%>
+
+          <button type="submit" class="registerbtn" name="uploadBtn">Upload</button>
+        </div>
+    </form>
+</div>

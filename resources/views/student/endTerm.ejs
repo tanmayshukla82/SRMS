@@ -1,0 +1,62 @@
+
+<div class="w-full h-full" >
+<div class="w-1/2 mx-auto mt-16 border rounded-md border-green-500 p-4 bg-white" id="print">
+    <div class="flex items-center"><h4><b>SRMS</b></h4></div>
+    <div class="flex">
+        <h2><b>Name :</b></h2>
+        <h2 class="ml-2"><b><%=student.Name%></b></h2>
+    </div>
+    <div class="flex">
+        <h2><b>Semester :</b></h2>
+        <h2 class="ml-2"><b><%=student.Semester%></b></h2>
+    </div>
+    <div class="flex mb-2">
+        <h2><b>Father's Name :</b></h2>
+        <h2 class="ml-2"><b><%=student.Father_name%></b></h2>
+    </div>
+    <table class="w-full">
+    <tr>
+        <th class="border border-green-500 border-collapse text-center">Subject Name</th>
+        <th class="border border-green-500 border-collapse text-center">Mid Term</th>
+        <th class="border border-green-500 border-collapse text-center">Total</th>
+        <th class="border border-green-500 border-collapse text-center">End Term</th>
+        <th class="border border-green-500 border-collapse text-center">Total</th>
+    </tr>
+    
+    <%marksFinal.forEach((m)=>{%>
+    <tr>
+        <%if(m.mid.mark+m.end.mark/2 < 40){%>
+            <td class="border border-red-500 border-collapse pl-2 text-white bg-red-500"><%=m.mid.subjectName%></td>
+            <td class="border border-red-500 border-collapse text-center text-white bg-red-500"><%=m.mid.mark%></td>
+            <td class="border border-red-500 border-collapse text-center text-white bg-red-500"><%=m.mid.totalMarks%></td>
+            <td class="border border-red-500 border-collapse text-center text-white bg-red-500"><%=m.end.mark%></td>
+            <td class="border border-red-500 border-collapse text-center text-white bg-red-500"><%=m.end.totalMarks%></td>
+        <%}else{%>
+            <td class="border border-green-500 border-collapse pl-2"><%=m.mid.subjectName%></td>
+            <td class="border border-green-500 border-collapse text-center"><%=m.mid.mark%></td>
+            <td class="border border-green-500 border-collapse text-center"><%=m.mid.totalMarks%></td>
+            <td class="border border-green-500 border-collapse text-center"><%=m.end.mark%></td>
+            <td class="border border-green-500 border-collapse text-center"><%=m.end.totalMarks%></td>
+        <%}%> 
+    </tr>
+    <%})%>
+    </table>
+    <div class="flex">
+        <h2><b>Total  :</b></h2>
+        <h2 class="ml-2"><b><%=final.totalMarksObtained%> / <%=final.totalMarksAllSubject%></b></h2>
+    </div>    
+    <div class="flex">
+        <h2><b>Percentage  :</b></h2>
+        <h2 class="ml-2"><b><%=final.percent%> %</b></h2>
+    </div>
+    <div class="flex">
+        <h2><b>Status  :</b></h2>
+        <%if(final.percent<40.0){%>
+            <h2 class="text-red-500 ml-2"><b>FAIL</b>></h2>
+        <%}else{%>
+            <h2 class="text-green-500 ml-2"><b>PASS</b></h2>
+        <%}%>
+    </div>
+    <button id="download" class="bg-green-500 outline outline-0 text-white p-2">Download</button>
+</div>
+</div>

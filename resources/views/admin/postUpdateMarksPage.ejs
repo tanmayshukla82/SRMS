@@ -1,0 +1,66 @@
+<script>
+  function validateForm(){
+  const mark = document.uploadMarksForm.mark;
+  const examType = document.uploadMarksForm.examType.value;
+  if(examType === "Mid Term")
+  {
+    totalMarks = Number(50);
+  }
+  else if(examType === "End Term")
+  {
+    totalMarks = Number(100);
+  }
+  
+  const arr = [];
+  for(let i=0;i<mark.length;i++)
+  {
+    arr.push(mark[i].value);
+  }
+  for(let i=0;i<arr.length;i++){
+    if(Number(arr[i])<0 || Number(arr[i])>totalMarks)
+    {
+      alert("Mark entered are out of range");
+      return false;
+    }
+  }}
+</script>
+
+
+<div class="m-auto w-4/5 scrollable">
+    <form action="/postUpdateMarks" method="post" name="uploadMarksForm" onsubmit="return validateForm()">
+        <%if(messages.error){%>
+        <span class="text-red-500 text-sm"><%= messages.error%></span>
+        <%}%>
+        <div class="container">
+            <div class="flex">
+                <h2 class="mr-2"><b>Registration Number : </b></h2>
+                <input type="text" name="registrationNumber" value="<%=stud.registrationNumber%>" class="registrationInput" readonly>
+            </div>
+          
+            <div class="flex">
+                 <h2 class="mr-2"><b>Name : </b></h2>
+                 <h2><%=stud.Name%></h2> 
+            </div>
+         
+            <div class="flex mb-4">
+                <h2 class="mr-2"><b>Exam Type : </b></h2>
+                <input type="text" name="examType" value="<%=examType%>" class="registrationInput" readonly>
+            </div>
+          
+
+          <%marksWithSubject.forEach((m)=>{%>
+            <div class="flex items-center justify-between w-full mb-2 px-3 rounded-md bg-white">
+
+                    <input type="text" name="subjectCode" value="<%=m.subjectCode%>" class="font-bold inputMargin" readonly>
+                
+                    <input type="text" name="subjectName" value="<%=m.subjectName%>"  class="font-bold inputMargin" readonly>
+                
+                    <input type="text" name="mark" placeholder="0" value="<%=m.mark%>" id="mark" class="font-bold bgG inputMargin" required>
+                
+            </div>
+          <%})%>
+
+          <button type="submit" class="registerbtn" name="uploadBtn">Update</button>
+        </div>
+    </form>
+</div>

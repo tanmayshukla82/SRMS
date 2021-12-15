@@ -8,6 +8,9 @@ const student_model = new mongoose.Schema({
         min:1,
         max:8,
     },
+    section : {
+        type : String
+    },
     Course:{
         type:String,
     },
@@ -22,14 +25,9 @@ const student_model = new mongoose.Schema({
         type:String,
         required:true
     },
-    Admission_number:{
-        type:Number,
-        unique:true
-    },
     registrationNumber:
     {
         type:String,
-        unique:true
     },
     Department :{
         type : String,
@@ -44,11 +42,15 @@ const student_model = new mongoose.Schema({
             isAsync : false
         }
     },
-    Age:Number,
     phone_number:{
         type:String,
-        max:10,
-        unique:true
+        unique:true,
+        validate:{
+            validator: function (v) {
+            return /^[0-9]{10}/.test(v);
+      },
+      message: '{VALUE} is not a valid 10 digit number!'
+    }
     },
     subjects : [{
         type : mongoose.Schema.Types.ObjectId,
@@ -64,11 +66,16 @@ const student_model = new mongoose.Schema({
     password : {
         type : String
     },
+    batch : {
+        type : String
+    },
     role: {
         type: String,
         default: "student"
+    },
+    otp : {
+        type : String
     }
-
 },{
     timestamps:true
 });

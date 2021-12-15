@@ -1,0 +1,226 @@
+body {
+  font-family: "Zen Kaku Gothic Antique", sans-serif;
+  background-color: #f3efef;
+  box-sizing: border-box;
+}
+
+.navbar {
+  background-color: white;
+  height: 6vh;
+  width: 100%;
+}
+
+.bgG {
+  color: black;
+  border: 1px solid #008000 !important;
+  padding: 5px !important;
+  width: 250px !important;
+  border-radius: 10px;
+}
+
+.inputMargin {
+  margin: auto !important;
+}
+
+.sidebar {
+  background-color: #1b1b1b;
+  height: 94vh;
+}
+
+.sidebar a,
+.dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+.sidebar a:hover,
+.dropdown-btn:hover {
+  color: #f1f1f1;
+}
+
+.dropdown-txt {
+  color: white;
+}
+
+.sidebar a,
+.dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  background: none;
+}
+
+.dropdown-btn:focus {
+  outline: none;
+}
+
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+
+.active {
+  background-color: green;
+  color: white;
+}
+
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
+.dashboard {
+  border-bottom: 2px solid white;
+}
+
+input[type=text] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: white;
+}
+
+input[type=text]:focus,
+select:focus {
+  background-color: white;
+  outline: none;
+}
+
+select,
+.dob {
+  width: 320px;
+  height: 40px;
+}
+
+.stud-label {
+  margin: 0 4px;
+}
+
+.registerbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.registerbtn:hover {
+  opacity: 1;
+}
+
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
+.scrollable {
+  height: 80vh;
+  overflow-y: auto;
+}
+
+.getStud {
+  border-color: #008000;
+  border-width: 2px;
+}
+
+.b-right {
+  border-color: #008000;
+}
+
+.registrationInput {
+  font-weight: bold;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  width: auto !important;
+  background: none !important;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  width: 80%;
+  border: 2px solid #008000;
+}
+
+.modal_container {
+  display: flex;
+}
+
+.profile_picture {
+  border: 1px solid black;
+  height: 100px;
+  width: 100px;
+}
+
+.bg-img {
+  background-image: url("/img/background.png");
+  height: 100vh;
+  min-height: 380px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.containerForm {
+  position: absolute;
+  left: 20%;
+  top: 15%;
+  margin: 20px;
+  max-width: 350px;
+  padding: 16px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+input[type=text],
+input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+}
+
+input[type=text]:focus,
+input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+

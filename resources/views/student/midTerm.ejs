@@ -1,0 +1,18 @@
+<div class="w-full h-full">
+<div class="w-1/2 mx-auto mt-16 border rounded-md border-green-500 p-4 bg-white">
+    <table class="w-full">
+    <tr>
+        <th class="border border-green-500 border-collapse text-center">Subject Name</th>
+        <th class="border border-green-500 border-collapse text-center">Marks</th>
+    </tr>
+    
+    <%marksFinal.forEach((m)=>{%>
+    <tr>
+       <td class="border border-green-500 border-collapse pl-2"><%=m.subjectName%></td>
+       <td class="border border-green-500 border-collapse text-center"><%=m.mark%></td>
+    </tr>
+    <%})%>
+    </table>
+    
+</div>
+</div>

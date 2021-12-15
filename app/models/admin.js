@@ -34,7 +34,6 @@ const adminSchema = new Schema({
         type: String,
         default: "admin"
     }
-
 });
 
 const Admin = new mongoose.model('Admin',adminSchema);

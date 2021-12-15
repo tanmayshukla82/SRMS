@@ -1,0 +1,41 @@
+<div class="flex justify-between w-4/5 scrollable">
+<div class="w-2/6 m-auto border rounded-md border-green-500 p-4 bg-white">
+            <%if(messages.error){%>
+            <span class="text-red-500 text-sm"><%= messages.error%></span>
+            <%}else if(messages.success){%>
+            <span class="text-green-500 text-sm"><%= messages.success%></span>
+            <%}%>
+             <div class="flex mb-4 ml-20">
+                <h2><b>Name  :</b></h2>
+                <h2 class="ml-5"><b><%=admin.name%></b></h2>
+            </div>
+            
+             <div class="flex mb-4 ml-20">
+                <h2><b>Registration Number  :</b></h2>
+                <h2 class="ml-5"><b><%=admin.registrationNumber%></b></h2>
+            </div>
+
+
+             <div class="flex mb-4 ml-20">
+                <h2><b>Email  :</b></h2>
+                <h2 class="ml-5"><b><%=admin.email%></b></h2>
+            </div>
+
+            <div class="flex mb-4 ml-20">
+                <h2><b>Contact Number  :</b></h2>
+                <h2 class="ml-5"><b><%=admin.contactNumber%></b></h2>
+            </div>
+
+            <div class="flex mb-4 ml-20">
+                <h2><b>DOB  :</b></h2>
+                <h2 class="ml-5"><b><%=admin.dob%></b></h2>
+            </div>
+
+             <div class="flex mb-4 ml-20">
+                <h2><b>Joining Year  :</b></h2>
+                <h2 class="ml-5"><b><%=admin.joiningYear%></b></h2>
+            </div>
+
+</div>
+</form>
+</div>

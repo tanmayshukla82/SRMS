@@ -1,0 +1,116 @@
+
+<div class="m-auto w-4/5 scrollable">
+    <form action="/register" method="post" name="form" id="form">
+        <div class="container">
+          <label for="name"><b>Name</b></label>
+          <input type="text" placeholder="Student's Name" name="Name" id="name" required>  
+
+          <label for="father_name"><b>Father's Name</b></label>
+          <input type="text" placeholder="Father's Name" name="Father_name" id="Father_name"  required>
+          
+          <label for="email"><b>Email</b></label>
+          <input type="text" placeholder="Enter Email" name="Email" id="email" required>
+
+          <label for="batch"><b>Batch</b></label>
+          <input type="text" placeholder="Year" name="batch"  required>
+          
+          <div class="flex items-center justify-between my-2">
+                <div>
+                    <label for="birthday" class="stud-label"><b>DOB</b></label>
+                    <br>
+                    <input type="text" placeholder="dd-mm-yyyy" class="dob" name="DOB" value="<%=messages.DOB%>">
+                </div>
+
+                <div>
+                    <label for="section" class="stud-label"><b>Section</b></label>
+                    <br>
+                    <select name="section" id="section">
+                        <option value="a">A</option>
+                        <option value="b">B</option>
+                        <option value="c">C</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="department" class="stud-label"><b>Department</b></label>
+                    <br>
+                    <select name="Department">
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Civil">Civil</option>
+                    </select>
+                </div>
+          </div>
+
+          <div class="flex items-center justify-between my-2">
+                <div>
+                <label for="semester" class="stud-label"><b>Semester</b></label>
+                <br>
+                <select name="Semester" id="semester">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                </div>
+
+                <div>
+                <label for="course" class="stud-label"><b>Course</b></label>
+                <br>
+                <select name="Course" id="Course">
+                    <option value="B.Tech">B.Tech</option>
+                </select>
+                </div>
+
+                <div>
+                <label for="branch" class="stud-label"><b>Branch</b></label>
+                <br>
+                <select name="Branch" id="Branch">
+                    <option value="C.S.E">C.S.E</option>
+                </select>
+                </div>
+
+          </div>
+
+          <label for="phone"><b>Mobile Number</b></label>
+          <input type="text" placeholder="Mobile Number" name="phone_number" required>
+
+          <label for="aadharCard"><b>Aadhar Card Number</b></label>
+          <input type="text" placeholder="Aadhar Card Number" name="aadharCard" required>
+
+          <div class="mb-2">
+              <label for="gender_heading"><b>Gender</b></label>
+              <br>
+              <div class="flex">
+                <div>
+                    <input type="radio" name="gender" value="Male">
+                    <label for="male">Male</label>
+                </div>
+                <div>
+                    <input type="radio" name="gender" value="Female">
+                    <label for="female">Female</label>
+                </div>
+              </div>
+              
+          </div>
+                
+          <button type="submit" class="registerbtn">Register</button>
+        </div>
+      </form>
+</div>
+
+<script>
+    
+    document.forms['form'].addEventListener('submit', (event) => {
+    // TODO do something here to show user that form is being submitted
+    fetch(event.target.action, {
+        method: 'POST',
+        body: new FormData(event.target) // event.target is the form
+    }).then((resp) => resp.json()).then((body) => {
+        alert(body.message)
+    }).catch((error) => {
+        console.log(error);
+    });
+
+});
+</script>

@@ -1,0 +1,66 @@
+<div class="w-full h-full">
+<div class="w-2/6 mx-auto mt-16 border rounded-md border-green-500 p-4 bg-white">
+        <form action="/viewMarks" method="post" class="w-full">
+            <div class="w-3/4 m-auto">
+             <div class="flex items-center mb-4">
+                <h2><b>Name  :</b></h2>
+                <h2 class="ml-5"><b><%=stud.Name%></b></h2>
+            </div>
+            <div class="flex mb-4">
+                <h2><b>Course  :</b></h2>
+                <h2 class="ml-5"><b><%=stud.Course%></b></h2>
+            </div>
+
+            <div class="flex mb-4">
+                <h2><b>Branch  :</b></h2>
+                <h2 class="ml-5"><b><%=stud.Branch%></b></h2>
+            </div>
+
+            <div class="flex mb-4">
+                <h2><b>Father's Name  :</b></h2>
+                <h2 class="ml-5"><b><%=stud.Father_name%></b></h2>
+            </div>
+
+             <div class="flex mb-4">
+                <h2 class="mr-5"><b>Registration Number  :</b></h2>
+                <input type="text" name="registrationNumber" class="ml-5 registrationInput" value="<%=stud.registrationNumber%>" readonly>
+            </div>
+
+            <div class="flex mb-4">
+                <h2 class="mr-5"><b>Semester  :</b></h2>
+                <input type="text" name="semester" class="ml-5 registrationInput" value="<%=stud.Semester%>" readonly>
+            </div>
+
+             <div class="flex mb-4">
+                <h2><b>Email  :</b></h2>
+                <h2 class="ml-5"><b><%=stud.Email%></b></h2>
+            </div>
+
+            <div class="flex mb-4">
+                <h2><b>Mobile Number  :</b></h2>
+                <h2 class="ml-5"><b><%=stud.phone_number%></b></h2>
+            </div>
+
+             <div class="flex mb-4">
+                <h2 class="mr-5"><b>Batch  :</b></h2>
+                <input type="text" name="batch" class="ml-5 registrationInput" value="<%=stud.batch%>" readonly>
+            </div>
+
+            <div class="mb-2">
+              <div class="flex">
+                <div>
+                    <input type="radio" name="examType" value="Mid Term">
+                    <label for="Mid Term"><b>Mid Term</b></label>
+                </div>
+                <div>
+                    <input type="radio" name="examType" value="End Term">
+                    <label for="End Term"><b>End Term</b></label>
+                </div>
+              </div>
+              
+          </div>
+            <button type="submit" class="registerbtn border rounded-md">Get Marks</button>
+        </div>
+</div>
+</form>
+</div>
