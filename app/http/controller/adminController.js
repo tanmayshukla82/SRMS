@@ -400,7 +400,7 @@ function adminController(){
                 console.log("Error in uploading marks",err.message)
             }    
         },
-        uploadMarks : async (req, res)=>{
+        uploadMarks : (req, res)=>{
             return res.status(200).render('./admin/uploadMarks.ejs',{layout : './layouts/adminDashboard.ejs'})
         },
         getStudentForMarks : async(req, res)=>{
@@ -497,7 +497,7 @@ function adminController(){
             } catch (error) {
                 return res.status(404).json({"error" : message.error});
             }
-        },
+        }
 
     }
 }
