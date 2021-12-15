@@ -419,7 +419,7 @@ function adminController(){
                 return res.status(404).json({err : err.message});
             }
         },
-        updateMarksPage: async(req,res)=>{
+        updateMarksPage: (req,res)=>{
             return res.status(200).render('./admin/updateMarks.ejs',{layout : './layouts/adminDashboard.ejs'});
         },
         updateMarks : async(req, res)=>{

@@ -109,7 +109,7 @@ function facultyController(){
                 console.log("Error in uploading marks",err.message)
             }    
         },
-        uploadMarksFaculty : async (req, res)=>{
+        uploadMarksFaculty : (req, res)=>{
             return res.status(200).render('./faculty/uploadMarksFaculty.ejs',{layout : './layouts/facultyDashboard.ejs'})
         },
         getStudentForMarksFaculty : async(req, res)=>{
@@ -128,7 +128,7 @@ function facultyController(){
                 return res.status(404).json({err : err.message});
             }
         },
-        updateMarksPageFaculty: async(req,res)=>{
+        updateMarksPageFaculty: (req,res)=>{
             return res.status(200).render('./faculty/updateMarksFaculty.ejs',{layout : './layouts/facultyDashboard.ejs'});
         },
         updateMarksFaculty : async(req, res)=>{
