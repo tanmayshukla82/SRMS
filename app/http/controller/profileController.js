@@ -10,12 +10,8 @@ const Subject = require('../../models/student_subject');
 function profileController()
 {
     return {
-        student : async(req,res)=>{
-            try {
+        student : (req,res)=>{
                 return res.status(200).render('./auth/student.ejs',{layout : './layouts/studentLogin.ejs'});
-            } catch (error) {
-                return res.status(404).json({"message" : error.message});
-            }
         },
         studentLogin : async(req, res)=>{
             try {
@@ -62,9 +58,6 @@ function profileController()
             return res.status(400).json({"error":error.message});
         }
         },
-        // forgotPassword: (req,res)=>{
-        //         return res.status(200).render('./student/forgotPassword.ejs',{layout : './layouts/studentLogin.ejs'});
-        // },
         forgotPassword : async(req, res)=>{
             try {
                 const {email} = req.body;
