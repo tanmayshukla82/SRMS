@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 function connectDB(){
-const url = "mongodb://localhost:27017/srms";
+const url = process.env.MONGO_URL;
 mongoose.connect(url,{useNewUrlParser:true});
 const db = mongoose.connection;
 db.once('open',()=>{
