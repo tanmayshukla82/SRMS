@@ -102,33 +102,32 @@ function adminController(){
             return res.status(400).send(error.message);
         }
         },
-        index : (req, res)=>{
-            res.send("hello this is from the home page");
-        },
         getAllStudent : async(req, res)=>{
             try {
                 const stud = await Student.find({});
-                console.log(stud);
                 if(!stud)
                 {
-                    return res.status(404).json({message : "No Student Found"});
+                    req.flash("error","No Student Found");
+                    return  res.status(200).render('./admin/getStudent',{layout : './layouts/adminDashboard.ejs'});
                 }
                 return  res.status(200).render('./admin/getStudent',{layout : './layouts/adminDashboard.ejs', stud : stud});
             } catch (err) {
-                res.send("unable to fetch details of student.");
+                req.flash("error","unable to fetch details of student.")
+                return  res.status(200).render('./admin/getStudent',{layout : './layouts/adminDashboard.ejs'});
             }
         },
-        getStudentByRollNumber : async(req, res)=>{
+        getAllFaculty : async(req, res)=>{
             try {
-                const universityRollNumber = req.body;
-                const stud = await Student.findOne({universityRollNumber});
-                if(!stud)
+                const fac = await Faculty.find({});
+                if(!fac)
                 {
-                    return res.status(404).json({message : "Student not found"})
+                    req.flash("error","No Faculty Found");
+                    return  res.status(200).render('./admin/getFaculty.ejs',{layout : './layouts/adminDashboard.ejs'});
                 }
-                return res.status(200).send(stud);
-            } catch (error) {
-                return res.status(400).json({message : error.message});
+                return  res.status(200).render('./admin/getFaculty.ejs',{layout : './layouts/adminDashboard.ejs', fac:fac});
+            } catch (err) {
+                req.flash("error","unable to fetch details of faculty.")
+                return  res.status(200).render('./admin/getFaculty.ejs',{layout : './layouts/adminDashboard.ejs'});
             }
         },
         register : (req,res)=>{
@@ -141,10 +140,6 @@ function adminController(){
                 const st = await Student.findOne({Email});
                 if(st)
                 {
-                    // return res.status(400).json({
-                    //     success: false,
-                    //     message: "Email already exist",
-                    // });
                     return res.render('./admin/studentRegister.ejs',{layout : './layouts/adminDashboard.ejs'})
                 }
                 const hashedPassword = await bcrypt.hash(DOB, 10);
@@ -232,7 +227,7 @@ function adminController(){
                 {
                     helper = "00" + faculties.length.toString();
                 }
-                else if(faculties.length>9 && faculties.length<100)
+                else if(faculties.length>=10 && faculties.length<100)
                 {
                     helper = "0" + faculties.length.toString();
                 }
@@ -260,18 +255,6 @@ function adminController(){
         facultyRegister: (req, res)=>{
             return res.render('./admin/facultyRegister.ejs',{layout : './layouts/adminDashboard.ejs'});
         },
-        getAllFaculty: async (req, res) => {
-            try {
-                const faculties = await Faculty.find({})
-                if (faculties.length === 0) {
-                    return res.status(404).json({ message: "No Record Found" })
-                }
-                return res.status(200).json({ result: faculties })
-            }
-            catch (err) {
-                return res.status(400).send(err)
-            } 
-        },
         subjectUpload : async(req, res)=>{
             try {
                 const subject = new Subject();
@@ -294,7 +277,7 @@ function adminController(){
             try {
                 const allSubjects = await Subject.find({})
                 if (!allSubjects) {
-                    return res.status(404).json({ message: "You havent registered any subject yet." })
+                    return res.status(404).json({ message: "You havent registered any subject yet." });
                 }
                 return res.status(200).json(allSubjects)
             }
@@ -337,6 +320,19 @@ function adminController(){
             } catch (error) {
                 req.flash("error","Error in deleting");
                 return res.status(404).json({message : error.message});
+            }
+        },
+        deleteFac : async(req, res)=>{
+            try {
+                
+                const id = req.params.id;
+                const fac = await Faculty.findOne({registrationNumber : id});
+                await Faculty.deleteOne({registrationNumber : id});
+                const facAll = await Faculty.find({});
+                return res.status(200).render('./admin/getFaculty.ejs',{layout : 'layouts/adminDashboard.ejs',fac:facAll});
+            } catch (error) {
+                req.flash("error","Error in deleting");
+                return res.status(200).render('./admin/getFaculty.ejs',{layout : 'layouts/adminDashboard.ejs'});
             }
         },
         logout : (req,res)=>{
@@ -407,7 +403,7 @@ function adminController(){
             try {
                 const {subjectCode, examType, totalMarks, section, department, batch, semester} = req.body;
                 const subject = await Subject.findOne({ subjectCode });
-                const stud = await Student.find({section});
+                const stud = await Student.find({section,batch});
                 const sec = section.toLowerCase();
                 const isAlready = await Marks.find({subject:subject._id,examType,section:sec,batch});
                     if (isAlready.length !== 0) {

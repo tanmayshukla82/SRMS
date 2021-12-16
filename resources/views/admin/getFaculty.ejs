@@ -1,0 +1,30 @@
+<div class="m-auto w-4/5 scrollable">
+    <div>
+        <%if(messages.error){%>
+        <span class="text-red-500 text-sm"><%= messages.error%></span>
+    <%}else if(messages.success){%>
+        <span class="text-green-500 text-sm"><%= messages.success%></span>
+    <%}%>
+    </div>
+    <%fac.forEach((f)=>{%>   
+    <div class="flex items-center justify-between w-full h-10 mb-2 cursor-pointer rounded-md bg-white getStud">
+        <div class="flex items-center">
+            <div class="ml-2 border-r-2 b-right">
+                <div class="pr-2">
+                    <p class="font-bold"><%= f.registrationNumber %></p>
+                </div>
+            </div>
+            <div class="ml-2">
+                <p><%= f.name %></p>
+            </div>
+        </div>
+        <div class="flex">
+            <div class="mr-2">
+                <a href="/fac_delete/<%=f.registrationNumber%>">
+                <i class="fas fa-user-minus"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <%})%>
+</div>

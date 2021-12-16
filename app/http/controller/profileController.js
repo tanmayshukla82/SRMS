@@ -49,9 +49,8 @@ function profileController()
             }
           );
         } else {
-          return res
-            .status(400)
-            .json({ passwordincorrect: "Password incorrect" });
+          req.flash("error","Password Incorrect");
+          return res.render('./auth/admin.ejs',{layout : './layouts/studentLogin.ejs'});
         }
       });
         } catch (error) {
@@ -70,7 +69,6 @@ function profileController()
                 student.otp = otp;
                 await student.save()
                 sendEmail(otp,email);
-                // res.status(200).json({message : "Check your registered email"});
                 setTimeout(()=>{
                     student.otp = "";
                     student.save();
@@ -86,15 +84,18 @@ function profileController()
                 const student = await Student.findOne({email});
                 if(!student)
                 {
-                    res.status(404).json({message : "Email does not registered"});
+                    req.flash("error","Email does not registered");
+                    res.status(404).render('./student/postForgotPassword',{layout : './layouts/postStudentLogin.ejs'});
                 }
                 if(student.otp!==otp)
                 {
-                    return res.json({message : "wrong OTP"});
+                    req.flash("error","OTP does not match");
+                    res.status(404).render('./student/postForgotPassword',{layout : './layouts/postStudentLogin.ejs'});
                 }
                 if(newPassword!==confirmPassword)
                 {
-                    return res.json({message : "password mismatched"});
+                    req.flash("error","Password mismatched");
+                    res.status(404).render('./student/postForgotPassword',{layout : './layouts/postStudentLogin.ejs'});
                 }
                 const hashedPassword = await bcrypt.hash(newPassword, 10);
                 student.password = hashedPassword;
@@ -104,30 +105,7 @@ function profileController()
                 return res.status(400).json({error : error.message}); 
             }
         },
-        updateProfile: async (req, res) => {
-            try {
-                const { email, gender, phone_number,
-                    aadharCard } = req.body
-                const student = await Student.findOne({ email })
-                if (gender) {
-                    student.gender = gender
-                    await student.save()
-                }
-                if (phone_number) {
-                    student.phone_number = phone_number
-                    await student.save()
-                }
-                if (aadharCard) {
-                    student.aadharCard = aadharCard
-                    await student.save()
-                }
-                await student.save()
-                res.status(200).json(student)
-            }
-            catch (err) {
-                console.log("Error in updating Profile", err.message)
-            }
-        },
+    
         studentLogout : (req,res)=>{
             if (req.cookies['jwt']) {
                 res

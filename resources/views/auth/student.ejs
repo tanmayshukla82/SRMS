@@ -2,6 +2,9 @@
 <div class="bg-img">
     <div class="containerForm">
     <form action="/studentLogin" method="post" class="mb-4" >
+    <%if(messages.error){%>
+        <span class="text-red-500 text-sm"><%= messages.error%></span>
+        <%}%>
     <h1>Login</h1>
 
     <label for="registrationNumber"><b>Registration Number</b></label>

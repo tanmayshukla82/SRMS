@@ -14,21 +14,20 @@ const initRoute = (app)=>{
     app.get('/studentLogout',passport.authenticate('jwt',{session:false}),profileController().studentLogout);
     app.post('/viewMarks',passport.authenticate('jwt',{session:false}),profileController().viewMarks);
     app.post('/forgotPassword',profileController().forgotPassword);
+    app.post('/postOTP',profileController().postOTP);
     
     //subject
     app.post('/subject_upload',passport.authenticate('jwt',{session:false}),adminController().subjectUpload);
     app.get('/getSubjects',passport.authenticate('jwt',{session:false}),adminController().getAllSubjects);
 
     //admin
-    //,passport.authenticate('jwt',{session : false})
     app.get('/addAdmin',adminController().addAdminPage);
     app.post('/addAdmin', adminController().addAdmin);
     app.get('/admin',adminController().admin);
     app.post('/adminLogin', adminController().adminLogin);
     app.get('/adminLogout',passport.authenticate('jwt',{session:false}),adminController().logout);
-    // app.get('/',passport.authenticate('jwt',{session : false}),adminController().index);
     app.get('/getStudent',passport.authenticate('jwt',{session:false}),adminController().getAllStudent);
-    app.get('/get-studentByRollNumber',passport.authenticate('jwt',{session : false}),adminController().getStudentByRollNumber);
+    
     app.post('/register',passport.authenticate('jwt',{session:false}),adminController().postRegister);
     app.get('/studentRegister',passport.authenticate('jwt',{session:false}),adminController().register);
     app.post('/addFaculty',passport.authenticate('jwt',{session:false}),adminController().addFaculty);
@@ -47,6 +46,8 @@ const initRoute = (app)=>{
     app.get('/publish',passport.authenticate('jwt',{session:false}),adminController().prePublish);
     app.post('/publish',passport.authenticate('jwt',{session:false}),adminController().publish);
     app.post('/postPublish',passport.authenticate('jwt',{session:false}),adminController().postPublish);
+    app.get('/getFaculty',passport.authenticate('jwt',{session : false}),adminController().getAllFaculty);
+    app.get('/fac_delete/:id',passport.authenticate('jwt',{session : false}),adminController().deleteFac);
     //faculty
     app.get('/faculty',facultyController().faculty);
     app.post('/facultyLogin', facultyController().facultyLogin);
