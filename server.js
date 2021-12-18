@@ -23,7 +23,8 @@ app.use(express.urlencoded({extended : false}));
 
 
 //session config
-const url = "mongodb://localhost:27017/srms";
+// const url = "mongodb://localhost:27017/srms";
+const url = process.env.MONGO_URL;
 app.use(session({
     secret: process.env.COOKIE_SECRET,
     resave: false,
