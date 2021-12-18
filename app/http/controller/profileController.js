@@ -11,50 +11,49 @@ function profileController()
 {
     return {
         student : (req,res)=>{
-                return res.status(200).render('./auth/student.ejs',{layout : './layouts/studentLogin.ejs'});
+            return res.status(200).render('./auth/student.ejs',{layout : './layouts/studentLogin.ejs'});
         },
         studentLogin : async(req, res)=>{
             try {
                 const {registrationNumber, psw} = req.body;
-                
                 const student = await Student.findOne({registrationNumber});
-                
                 if(!student)
                 {
                     req.flash('error', "User not registered");
                     res.status(404).send("Student not found");
                 }
                 // Check password
-        await bcrypt.compare(psw,student.password).then(isMatch => {
-        if (isMatch) {
-          // User matched
-          // Create JWT Payload
-          const payload = {
-            _id : student._id,
-            registrationNumber : student.registrationNumber
-          };
-  // Sign token
-          jwt.sign(
-            payload,
-            process.env.JWT_SECRET,
-            {
-              expiresIn: '1h' 
-            },
-            (err, token) => {
-              res.cookie('jwt',
-              token, {
-                  httpOnly : true,
-                  secure : false
-              }).status(200).render('./student/postLogin.ejs',{layout : './layouts/postStudentLogin.ejs',stud:student});
-            }
-          );
-        } else {
-          req.flash("error","Password Incorrect");
-          return res.render('./auth/admin.ejs',{layout : './layouts/studentLogin.ejs'});
-        }
-      });
+                await bcrypt.compare(psw,student.password).then(isMatch => {
+                if (isMatch) {
+                // User matched
+                // Create JWT Payload
+                const payload = {
+                    _id : student._id,
+                    registrationNumber : student.registrationNumber
+                };
+                // Sign token
+                jwt.sign(
+                    payload,
+                    process.env.JWT_SECRET,
+                    {
+                    expiresIn: '1h' 
+                    },
+                    (err, token) => {
+                    res.cookie('jwt',
+                    token, {
+                        httpOnly : true,
+                        secure : false
+                    }).status(200).render('./student/postLogin.ejs',{layout : './layouts/postStudentLogin.ejs',stud:student});
+                    }
+                );
+                } else {
+                    req.flash("error","Password Incorrect");
+                    return res.render('./auth/admin.ejs',{layout : './layouts/studentLogin.ejs'});
+                }
+            });
         } catch (error) {
-            return res.status(400).json({"error":error.message});
+            req.flash("error","Error in logging in");
+            return res.render('./auth/admin.ejs',{layout : './layouts/studentLogin.ejs'});
         }
         },
         forgotPassword : async(req, res)=>{
@@ -63,7 +62,8 @@ function profileController()
                 const student = await Student.findOne({email});
                 if(!student)
                 {
-                   return res.status(404).json({message : "Email not registered"});
+                   req.status('error','User not registered');
+                   return res.status(404).render('./auth/student.ejs',{layout : './layouts/studentLogin.ejs'});
                 }
                 const otp = generateOTP();
                 student.otp = otp;
@@ -75,7 +75,8 @@ function profileController()
                 },600000);
                 return res.status(200).render('./student/postForgotPassword',{layout : './layouts/postStudentLogin.ejs'})
             } catch (error) {
-                return res.status(400).json({error : error.message});
+                req.status('error','Error');
+                return res.status(400).render('./auth/student.ejs',{layout : './layouts/studentLogin.ejs'});
             }
         },
         postOTP : async(req, res)=>{
@@ -102,7 +103,8 @@ function profileController()
                 await student.save();
                 return res.status(200).render('./auth/student.ejs',{layout : './layouts/studentLogin.ejs'});
             } catch (error) {
-                return res.status(400).json({error : error.message}); 
+                req.flash("error","Error");
+                res.status(404).render('./student/postForgotPassword',{layout : './layouts/postStudentLogin.ejs'});
             }
         },
     

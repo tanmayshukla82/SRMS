@@ -20,7 +20,9 @@
    
     <form action="/studentMarksFaculty" method="post" name="uploadMarksForm" onsubmit="return validateForm()">
         <%if(messages.error){%>
-        <span class="text-red-500 text-sm"><%= messages.error%></span>
+          <span class="text-red-500 text-sm"><%= messages.error%></span>
+        <%}else if(messages.success){%>
+          <span class="text-green-500 text-sm"><%= messages.success%></span>
         <%}%>
         <div class="container">
            

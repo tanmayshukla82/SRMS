@@ -2,6 +2,8 @@
     <form action="/addFaculty" method="post">
       <%if(messages.error){%>
         <span class="text-red-500 text-sm"><%= messages.error%></span>
+      <%}else if(messages.success){%>
+        <span class="text-green-500 text-sm"><%= messages.success%></span>
       <%}%>
         <div class="container">
            

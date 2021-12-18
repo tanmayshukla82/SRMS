@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const sendEmail = require('../../../utils/sendEmail');
 const generateOTP = require('../../../utils/generateOTP');
 const Student = require('../../models/student_profile');
-const jsAlert = require('js-alert');
 const flash = require('connect-flash');
 function facultyController(){
     return {
@@ -16,7 +15,6 @@ function facultyController(){
             } catch (error) {
                 return res.status(404).json({"message" : error.message});
             }
-            
         },
         facultyLogin: async (req, res) => {
             try {
@@ -24,7 +22,8 @@ function facultyController(){
     
                 const faculty = await Faculty.findOne({ registrationNumber })
                 if (!faculty) {
-                    return res.status(404).json({error : "User not registerd"});
+                    req.flash("error","Faculty not found");
+                    return res.render('./auth/faculty.ejs',{layout : './layouts/facultyLogin.ejs'});
                 }
                 bcrypt.compare(password, faculty.password).then(isMatch => {
                     if (isMatch) {
@@ -55,13 +54,12 @@ function facultyController(){
                   });
             }
             catch (err) {
-                console.log("Error in faculty login", err.message)
+               req.flash("error","Error in faculty login.");
+               return res.render('./auth/faculty.ejs',{layout : './layouts/facultyLogin.ejs'});
             }
         },
         studentMarksFaculty : async (req, res) => {
-            
             try {
-
                 const {subjectCode, examType, totalMarks,reg,name, mark, department, section,batch, semester} = req.body;
                 const subject = await Subject.findOne({ subjectCode });
                  if(!Array.isArray(mark))
@@ -98,7 +96,7 @@ function facultyController(){
                         totalMarks,
                         semester,
                         batch
-                    })
+                    });
                     await newMarks.save()
                 }
             }
@@ -106,7 +104,8 @@ function facultyController(){
                 return res.status(200).render('./faculty/uploadMarksFaculty.ejs',{layout : './layouts/facultyDashboard.ejs'});
             }
             catch (err) {
-                console.log("Error in uploading marks",err.message)
+                req.flash("error","Error in uploading marks.");
+                return res.status(200).render('./faculty/uploadMarksFaculty.ejs',{layout : './layouts/facultyDashboard.ejs'});
             }    
         },
         uploadMarksFaculty : (req, res)=>{
@@ -121,11 +120,12 @@ function facultyController(){
                 const isAlready = await Marks.find({ examType:examType, department, subject:subject._id, section:sec, batch});
                 if (isAlready.length !== 0) {
                     req.flash("error","Already uploaded");
-                    return res.status(200).render('./faculty/uploadMarksStudentFaculty.ejs',{layout : './layouts/facultyDashboard.ejs',subjectCode:subjectCode,examType:examType,section:section,stud:student,totalMarks:totalMarks,department:department,semester,batch});
+                    return res.status(200).render('./faculty/uploadMarksFaculty.ejs',{layout : './layouts/facultyDashboard.ejs',subjectCode:subjectCode,examType:examType,section:section,stud:student,totalMarks:totalMarks,department:department,semester,batch});
                 }
                 return res.status(200).render('./faculty/uploadMarksStudentFaculty.ejs',{layout : './layouts/facultyDashboard.ejs',subjectCode:subjectCode,examType:examType,section:section,stud:stud,totalMarks:totalMarks,department:department,semester,batch});
             } catch (err) {
-                return res.status(404).json({err : err.message});
+                req.flash("error","Error in getting student for marks");
+                return res.status(400).render('./faculty/uploadMarksFaculty.ejs',{layout : './layouts/facultyDashboard.ejs'});
             }
         },
         updateMarksPageFaculty: (req,res)=>{
@@ -154,7 +154,8 @@ function facultyController(){
                 }
                 return res.status(200).render('./faculty/postUpdateMarksPageFaculty.ejs',{layout : './layouts/facultyDashboard.ejs',marksWithSubject,stud : stud[0],examType});
             } catch (error) {
-                return res.status(404).json({"error" : error.message});
+                req.flash("error","Error in updating marks");
+                return res.status(400).render('./faculty/updateMarksFaculty',{layout : './layouts/facultyDashboard.ejs'})
             }
         },
         updatePassword : async(req, res)=>{
@@ -186,7 +187,8 @@ function facultyController(){
                     return res.status(200).render('./auth/faculty.ejs',{layout : './layouts/facultyLogin.ejs'});
                 }
             } catch (error) {
-                return res.status(400).json({error : error});
+                req.flash("error","Error in updating marks.");
+                return res.status(400).render('./faculty/postForgotPassword',{layout : './layouts/facultyLogin.ejs'});
             }
         },
         forgotPassword : async(req, res)=>{
@@ -202,14 +204,14 @@ function facultyController(){
                 faculty.otp = otp;
                 await faculty.save()
                 sendEmail(otp,email);
-                // res.status(200).json({message : "Check your registered email"});
                 setTimeout(()=>{
                     faculty.otp = "";
                     faculty.save();
                 },600000);
                 return res.status(200).render('./faculty/postForgotPassword',{layout:'./layouts/facultyLogin.ejs'});
             } catch (error) {
-                return res.status(400).json({error : error.message});
+                req.flash("error","Error in sending mail");
+                return res.render('./auth/faculty.ejs',{layout : './layouts/facultyLogin.ejs'});
             }
         },
         postOTP : async(req, res)=>{
@@ -236,7 +238,8 @@ function facultyController(){
                 await faculty.save();
                 return res.status(200).render('./auth/faculty.ejs',{layout : './layouts/facultyLogin.ejs'});
             } catch (error) {
-                return res.status(400).json({error : error.message}); 
+                req.flash("error","Error in updating password");
+                return res.render('./faculty/postForgotPassword',{layout : './layouts/facultyLogin.ejs'}); 
             }
         },
         logout : (req,res)=>{

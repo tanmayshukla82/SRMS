@@ -1,5 +1,4 @@
 const profileController = require('../app/http/controller/profileController');
-// const marksController = require('../app/http/controller/marksController');
 const adminController = require('../app/http/controller/adminController');
 const facultyController = require('../app/http/controller/facultyController');
 const mongoose = require('mongoose');
@@ -8,18 +7,15 @@ const Faculty = require('../app/models/faculty');
 
 
 const initRoute = (app)=>{
+    
     //student
     app.get('/student',profileController().student);
     app.post('/studentLogin',profileController().studentLogin);
-    app.get('/studentLogout',passport.authenticate('jwt',{session:false}),profileController().studentLogout);
-    app.post('/viewMarks',passport.authenticate('jwt',{session:false}),profileController().viewMarks);
     app.post('/forgotPassword',profileController().forgotPassword);
     app.post('/postOTP',profileController().postOTP);
+    app.get('/studentLogout',passport.authenticate('jwt',{session:false}),profileController().studentLogout);
+    app.post('/viewMarks',passport.authenticate('jwt',{session:false}),profileController().viewMarks);
     
-    //subject
-    app.post('/subject_upload',passport.authenticate('jwt',{session:false}),adminController().subjectUpload);
-    app.get('/getSubjects',passport.authenticate('jwt',{session:false}),adminController().getAllSubjects);
-
     //admin
     app.get('/addAdmin',adminController().addAdminPage);
     app.post('/addAdmin', adminController().addAdmin);
@@ -27,7 +23,6 @@ const initRoute = (app)=>{
     app.post('/adminLogin', adminController().adminLogin);
     app.get('/adminLogout',passport.authenticate('jwt',{session:false}),adminController().logout);
     app.get('/getStudent',passport.authenticate('jwt',{session:false}),adminController().getAllStudent);
-    
     app.post('/register',passport.authenticate('jwt',{session:false}),adminController().postRegister);
     app.get('/studentRegister',passport.authenticate('jwt',{session:false}),adminController().register);
     app.post('/addFaculty',passport.authenticate('jwt',{session:false}),adminController().addFaculty);
@@ -48,13 +43,14 @@ const initRoute = (app)=>{
     app.post('/postPublish',passport.authenticate('jwt',{session:false}),adminController().postPublish);
     app.get('/getFaculty',passport.authenticate('jwt',{session : false}),adminController().getAllFaculty);
     app.get('/fac_delete/:id',passport.authenticate('jwt',{session : false}),adminController().deleteFac);
+
+
     //faculty
     app.get('/faculty',facultyController().faculty);
     app.post('/facultyLogin', facultyController().facultyLogin);
     app.post('/facultyForgotPassword',facultyController().forgotPassword);
     app.post('/facultyUpdatePassword',facultyController().updatePassword);
     app.post('/postOTPFaculty',facultyController().postOTP);
-    // app.post('/facultyUpdateProfile', facultyController().updatePassword);
     app.get('/facultyLogout',passport.authenticate('jwt',{session:false}),facultyController().logout);
     app.get('/uploadMarksFaculty',passport.authenticate('jwt',{session:false}),facultyController().uploadMarksFaculty);
     app.post('/uploadMarksFaculty',passport.authenticate('jwt',{session:false}),facultyController().getStudentForMarksFaculty);

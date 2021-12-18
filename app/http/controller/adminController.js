@@ -60,7 +60,6 @@ function adminController(){
         },
         adminLogin : async(req, res)=>{
             try {
-                // const {registrationNumber, password} = req.body;
                 const admin = await Admin.findOne({registrationNumber: req.body.registrationNumber});
                 if(!admin)
                 {
@@ -68,39 +67,42 @@ function adminController(){
                     res.status(404).render('./auth/admin.ejs',{layout : './layouts/adminLogin.ejs'});
                 }
                 // Check password
-        bcrypt.compare(req.body.password, admin.password).then(isMatch => {
-        if (isMatch) {
-          // User matched
-          // Create JWT Payload
-          const payload = {
-            _id : admin._id,
-            registrationNumber : admin.registrationNumber
-          };
-  // Sign token
-          jwt.sign(
-            payload,
-            process.env.JWT_SECRET,
-            {
-              expiresIn: '3600s' 
-            },
-            (err, token) => {
-              res.cookie('jwt',
-              token, {
-                  httpOnly : true,
-                  secure : false
-              }).status(200).render('./admin/profile.ejs',{layout : './layouts/adminDashboard.ejs',admin:admin});
+                bcrypt.compare(req.body.password, admin.password).then(isMatch => {
+                if (isMatch) {
+                // User matched
+                // Create JWT Payload
+                const payload = {
+                    _id : admin._id,
+                    registrationNumber : admin.registrationNumber
+                };
+                // Sign token
+                jwt.sign(
+                    payload,
+                    process.env.JWT_SECRET,
+                    {
+                    expiresIn: '3600s' 
+                    },
+                    (err, token) => {
+                    res.cookie('jwt',
+                    token, {
+                        httpOnly : true,
+                        secure : false
+                    }).status(200).render('./admin/profile.ejs',{layout : './layouts/adminDashboard.ejs',admin:admin});
+                    }
+                );
+                } else {
+                req.flash("error","Invalid Credential")
+                return res
+                    .status(404)
+                    .render('./auth/admin.ejs',{layout : './layouts/adminLogin.ejs'});
+                }
+            });
+            } catch (error) {
+                 req.flash("error","Error in connection")
+                return res
+                    .status(404)
+                    .render('./auth/admin.ejs',{layout : './layouts/adminLogin.ejs'});
             }
-          );
-        } else {
-          req.flash("error","Invalid Credential")
-          return res
-            .status(404)
-            .render('./auth/admin.ejs',{layout : './layouts/adminLogin.ejs'});
-        }
-      });
-        } catch (error) {
-            return res.status(400).send(error.message);
-        }
         },
         getAllStudent : async(req, res)=>{
             try {
@@ -176,8 +178,6 @@ function adminController(){
                 student.role = req.body.role;
                 student.password = hashedPassword;
                 student.batch = batch;
-                // await student.save();
-
                 const subjects = await Subject.find({semester : Semester});
                 if(subjects!==0)
                 {
@@ -201,7 +201,8 @@ function adminController(){
                 const admin = await Admin.find({});
                 return res.render("./admin/profile.ejs",{layout : './layouts/adminDashboard.ejs',admin:admin[0]});
             } catch (error) {
-                return res.status(400).json({"error":error.message});
+                req.flash("error","Error in connection");
+                return res.status(400).render("./admin/profile.ejs",{layout : './layouts/adminDashboard.ejs'});
             }
         },
         addFaculty : async(req, res)=>{
@@ -246,44 +247,16 @@ function adminController(){
                 faculty.facultyMobileNumber = facultyMobileNumber;
                 faculty.aadharCard = aadharCard;
 
-                const result = await faculty.save();
+                await faculty.save();
+                req.flash("success","Faculty registered successfully");
                 return res.status(200).render('./admin/facultyRegister.ejs',{layout : './layouts/adminDashboard.ejs'});
             }catch(err){
-                return res.status(400).send(err);
+                req.flash("error","Error in connection");
+                return res.status(400).render('./admin/facultyRegister.ejs',{layout : './layouts/adminDashboard.ejs'})
             }
         },
         facultyRegister: (req, res)=>{
             return res.render('./admin/facultyRegister.ejs',{layout : './layouts/adminDashboard.ejs'});
-        },
-        subjectUpload : async(req, res)=>{
-            try {
-                const subject = new Subject();
-                subject.department = req.body.department;
-                subject.subjectName = req.body.subjectName;
-                subject.subjectCode = req.body.subjectCode;
-                subject.semester = req.body.semester;
-                subject.year = req.body.year;
-                const sub = await subject.save();
-                if(!sub)
-                {
-                    return res.status(404).json({message : "Data Not Found."});
-                }
-                return res.status(200).send(sub);
-            } catch (error) {
-                return res.status(400).json({message : error.message})
-            }
-        },
-        getAllSubjects: async (req, res) => {
-            try {
-                const allSubjects = await Subject.find({})
-                if (!allSubjects) {
-                    return res.status(404).json({ message: "You havent registered any subject yet." });
-                }
-                return res.status(200).json(allSubjects)
-            }
-            catch (err) {
-                res.status(400).json({ message: err.message});
-            }
         },
         updateStudent : async (req, res)=>{
             try {
@@ -303,12 +276,12 @@ function adminController(){
                 req.flash("success","Updated Successfully");
                 return res.status(200).render('./admin/getStudent.ejs',{layout : './layouts/adminDashboard.ejs',stud:student});
             } catch (err) {
-                return res.status(404).json({message : err.message});
+                req.flash("error","Error in updating");
+                return res.status(400).render('./admin/getStudent.ejs',{layout : './layouts/adminDashboard.ejs',stud:student});
             }
         },
         delete : async(req, res)=>{
             try {
-                
                 const id = req.params.id;
                 const stud = await Student.findOne({registrationNumber : id});
                 console.log(stud);
@@ -319,14 +292,12 @@ function adminController(){
                 return res.status(200).render('./admin/getStudent.ejs',{layout : 'layouts/adminDashboard.ejs',stud:student});
             } catch (error) {
                 req.flash("error","Error in deleting");
-                return res.status(404).json({message : error.message});
+                return res.status(400).render('./admin/getStudent.ejs',{layout : 'layouts/adminDashboard.ejs',stud:student});
             }
         },
         deleteFac : async(req, res)=>{
             try {
-                
                 const id = req.params.id;
-                const fac = await Faculty.findOne({registrationNumber : id});
                 await Faculty.deleteOne({registrationNumber : id});
                 const facAll = await Faculty.find({});
                 return res.status(200).render('./admin/getFaculty.ejs',{layout : 'layouts/adminDashboard.ejs',fac:facAll});
@@ -393,7 +364,8 @@ function adminController(){
                 return res.status(200).render('./admin/uploadMarks.ejs',{layout : './layouts/adminDashboard.ejs'});
             }
             catch (err) {
-                console.log("Error in uploading marks",err.message)
+                req.flash("error","Error in uploading marks");
+                return res.status(400).render('./admin/uploadMarks.ejs',{layout : './layouts/adminDashboard.ejs'});
             }    
         },
         uploadMarks : (req, res)=>{
@@ -412,7 +384,8 @@ function adminController(){
                     }
                 return res.status(200).render('./admin/uploadMarksStudent.ejs',{layout : './layouts/adminDashboard.ejs',subjectCode,examType,section:sec,stud,totalMarks,department,batch,semester});
             } catch (err) {
-                return res.status(404).json({err : err.message});
+                req.flash("error","Error in getting details of the student");
+                return res.status(400).render("./admin/uploadMarks.ejs",{layout : './layouts/adminDashboard.ejs'});
             }
         },
         updateMarksPage: (req,res)=>{
@@ -424,7 +397,8 @@ function adminController(){
                 const stud = await Student.find({registrationNumber});
                 if(!stud)
                 {
-                    alert("No Student found");
+                    req.flash('error','Unable to find student');
+                    return res.status(404).render('./admin/updateMarks.ejs',{layout : './layouts/adminDashboard.ejs'});
                 }
                 const marks = await Marks.find({student:stud[0]._id, examType, section});
                 const marksWithSubject = [];
@@ -440,7 +414,8 @@ function adminController(){
                 }
                 return res.status(200).render('./admin/postUpdateMarksPage.ejs',{layout : './layouts/adminDashboard.ejs',marksWithSubject,stud : stud[0],examType});
             } catch (error) {
-                return res.status(404).json({"error" : error.message});
+                req.flash('error','Error in updating marks.');
+                return res.status(404).render('./admin/updateMarks.ejs',{layout : './layouts/adminDashboard.ejs'});
             }
         },
         postUpdateMarks : async(req,res)=>{
@@ -454,9 +429,11 @@ function adminController(){
                     m.marks = mark[i];
                     await m.save();
                 }
-                return res.status(200).json({"message" : "OK REPORT"});
+                req.flash('success','Marks updated successfully');
+                return res.status(200).render('./admin/postUpdateMarksPage.ejs',{layout : './layouts/adminDashboard.ejs'});
             } catch (error) {
-                return res.status(404).json({"error" : error.message});
+                req.flash('error','Error in updating marks');
+                return res.status(400).render('./admin/postUpdateMarksPage.ejs',{layout : './layouts/adminDashboard.ejs'});
             }
         },
         prePublish : (req, res)=>{
@@ -487,14 +464,13 @@ function adminController(){
                     })
                     await status.save();
                 }
-                req.flash("success","Published Successfully")
-                return res.status(200).render('./admin/prePublish.ejs',{layout : './layouts/adminDashboard.ejs'})
-                // return res.status(200).send("publish successful");
+                req.flash("success","Published Successfully");
+                return res.status(200).render('./admin/prePublish.ejs',{layout : './layouts/adminDashboard.ejs'});
             } catch (error) {
-                return res.status(404).json({"error" : message.error});
+                req.flash("error","Error in publishing.");
+                return res.status(200).render('./admin/prePublish.ejs',{layout : './layouts/adminDashboard.ejs'});
             }
         }
-
     }
 }
 module.exports = adminController;
