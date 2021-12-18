@@ -1,6 +1,11 @@
 
 <div class="m-auto w-4/5 scrollable">
     <form action="/register" method="post" name="form" id="form">
+        <%if(messages.error){%>
+            <span class="text-red-500 text-sm"><%= messages.error%></span>
+            <%}else if(messages.success){%>
+            <span class="text-green-500 text-sm"><%= messages.success%></span>
+            <%}%>
         <div class="container">
           <label for="name"><b>Name</b></label>
           <input type="text" placeholder="Student's Name" name="Name" id="name" required>  

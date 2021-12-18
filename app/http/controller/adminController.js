@@ -23,11 +23,11 @@ function adminController(){
                     });
                 const admins = await Admin.find({department});
                 const date = new Date();
-                if(admins.length<9)
+                if(admins.length<=9)
                 {
                     helper = "00" + admins.length.toString();
                 }
-                else if(admins.length>9 && stud.length<100)
+                else if(admins.length>=10 && stud.length<100)
                 {
                     helper = "0" + admins.length.toString();
                 }
@@ -80,7 +80,7 @@ function adminController(){
                     payload,
                     process.env.JWT_SECRET,
                     {
-                    expiresIn: '3600s' 
+                    expiresIn: '3h' 
                     },
                     (err, token) => {
                     res.cookie('jwt',
@@ -107,7 +107,7 @@ function adminController(){
         getAllStudent : async(req, res)=>{
             try {
                 const stud = await Student.find({});
-                if(!stud)
+                if(stud.length === 0)
                 {
                     req.flash("error","No Student Found");
                     return  res.status(200).render('./admin/getStudent',{layout : './layouts/adminDashboard.ejs'});
@@ -133,7 +133,7 @@ function adminController(){
             }
         },
         register : (req,res)=>{
-            return res.render('./admin/studentRegister',{layout : './layouts/adminDashboard.ejs'});
+            return res.render('./admin/studentRegister.ejs',{layout : './layouts/adminDashboard.ejs'});
         },
         postRegister : async(req,res)=>{
             try {
@@ -142,6 +142,7 @@ function adminController(){
                 const st = await Student.findOne({Email});
                 if(st)
                 {
+                    req.flash("error","Already registered");
                     return res.render('./admin/studentRegister.ejs',{layout : './layouts/adminDashboard.ejs'})
                 }
                 const hashedPassword = await bcrypt.hash(DOB, 10);
@@ -187,6 +188,7 @@ function adminController(){
                     }
                 }
                 await student.save();
+                req.flash("success","Registered Successfully");
                 return res.render('./admin/studentRegister.ejs',{layout : './layouts/adminDashboard.ejs'})
             } catch (error) {
                  if (error.name == "ValidationError") {
@@ -224,7 +226,7 @@ function adminController(){
                 const faculties = await Faculty.find({});
                 const date = new Date();
                 const hashedPassword = await bcrypt.hash(dob, 10);
-                if(faculties.length<9)
+                if(faculties.length<=9)
                 {
                     helper = "00" + faculties.length.toString();
                 }
@@ -252,7 +254,7 @@ function adminController(){
                 return res.status(200).render('./admin/facultyRegister.ejs',{layout : './layouts/adminDashboard.ejs'});
             }catch(err){
                 req.flash("error","Error in connection");
-                return res.status(400).render('./admin/facultyRegister.ejs',{layout : './layouts/adminDashboard.ejs'})
+                return res.status(400).render('./admin/facultyRegister.ejs',{layout : './layouts/adminDashboard.ejs'});
             }
         },
         facultyRegister: (req, res)=>{
@@ -287,7 +289,6 @@ function adminController(){
                 console.log(stud);
                 await Student.deleteOne({registrationNumber : id});
                 const m = await Marks.deleteMany({student:stud._id});
-                console.log(m);
                 const student = await Student.find({});
                 return res.status(200).render('./admin/getStudent.ejs',{layout : 'layouts/adminDashboard.ejs',stud:student});
             } catch (error) {
@@ -356,7 +357,7 @@ function adminController(){
                         totalMarks,
                         batch,
                         semester
-                    })
+                    });
                     await newMarks.save()
                 }
             }
@@ -375,8 +376,8 @@ function adminController(){
             try {
                 const {subjectCode, examType, totalMarks, section, department, batch, semester} = req.body;
                 const subject = await Subject.findOne({ subjectCode });
-                const stud = await Student.find({section,batch});
                 const sec = section.toLowerCase();
+                const stud = await Student.find({section:sec,batch});
                 const isAlready = await Marks.find({subject:subject._id,examType,section:sec,batch});
                     if (isAlready.length !== 0) {
                         req.flash("error","Already uploaded");

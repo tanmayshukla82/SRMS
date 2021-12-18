@@ -11,7 +11,6 @@ const cookieExtractor = req => {
     if (req && req.cookies) {
         jwt = req.cookies['jwt']
     }
-
     return jwt
 }
 const opts = {};
@@ -35,7 +34,7 @@ module.exports = passport => {
                 return done(null, admin)
             }    
             else {
-                console.log("Error")
+                console.log("Error in passport");
             }
         }
         )

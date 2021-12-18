@@ -17,10 +17,10 @@ function profileController()
             try {
                 const {registrationNumber, psw} = req.body;
                 const student = await Student.findOne({registrationNumber});
-                if(!student)
+                if(student === null)
                 {
                     req.flash('error', "User not registered");
-                    res.status(404).send("Student not found");
+                    res.status(404).render('./auth/student.ejs',{layout : './layouts/studentLogin.ejs'});
                 }
                 // Check password
                 await bcrypt.compare(psw,student.password).then(isMatch => {
@@ -52,8 +52,9 @@ function profileController()
                 }
             });
         } catch (error) {
-            req.flash("error","Error in logging in");
-            return res.render('./auth/admin.ejs',{layout : './layouts/studentLogin.ejs'});
+            // req.flash("error","Error in logging in");
+            // return res.render('./auth/admin.ejs',{layout : './layouts/studentLogin.ejs'});
+            res.json({"error":error.message});
         }
         },
         forgotPassword : async(req, res)=>{
@@ -75,7 +76,7 @@ function profileController()
                 },600000);
                 return res.status(200).render('./student/postForgotPassword',{layout : './layouts/postStudentLogin.ejs'})
             } catch (error) {
-                req.status('error','Error');
+                // req.status('error','Error');
                 return res.status(400).render('./auth/student.ejs',{layout : './layouts/studentLogin.ejs'});
             }
         },
