@@ -13,7 +13,7 @@ const initRoute = (app)=>{
     app.post('/studentLogin',profileController().studentLogin);
     app.post('/forgotPassword',profileController().forgotPassword);
     app.post('/postOTP',profileController().postOTP);
-    app.get('/studentLogout',passport.authenticate('jwt',{session:false}),profileController().studentLogout);
+    app.get('/studentLogout',profileController().studentLogout);
     app.post('/viewMarks',passport.authenticate('jwt',{session:false}),profileController().viewMarks);
     
     //admin

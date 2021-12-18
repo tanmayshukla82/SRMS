@@ -421,7 +421,7 @@ function adminController(){
         },
         postUpdateMarks : async(req,res)=>{
             try {
-                const {registrationNumber, subjectCode, subjectName, mark} = req.body;
+                const {registrationNumber, subjectCode, subjectName, mark,examType} = req.body;
                 const stud = await Student.find({registrationNumber});
                 for(let i=0;i<subjectCode.length;i++)
                 {
@@ -431,7 +431,7 @@ function adminController(){
                     await m.save();
                 }
                 req.flash('success','Marks updated successfully');
-                return res.status(200).render('./admin/postUpdateMarksPage.ejs',{layout : './layouts/adminDashboard.ejs'});
+                return res.status(200).render('./admin/updateMarks.ejs',{layout : './layouts/adminDashboard.ejs'});
             } catch (error) {
                 req.flash('error','Error in updating marks');
                 return res.status(400).render('./admin/postUpdateMarksPage.ejs',{layout : './layouts/adminDashboard.ejs'});
