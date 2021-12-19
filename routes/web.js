@@ -57,7 +57,7 @@ const initRoute = (app)=>{
     app.post('/studentMarksFaculty',passport.authenticate('jwt',{session:false}),facultyController().studentMarksFaculty);
     app.get('/updateMarksPageFaculty',passport.authenticate('jwt',{session:false}),facultyController().updateMarksPageFaculty);
     app.post('/updateMarksFaculty',passport.authenticate('jwt',{session:false}),facultyController().updateMarksFaculty);
-    app.post('postUpdateMarksFaculty',passport.authenticate('jwt',{session:false}),facultyController().postUpdateMarksFaculty);
+    app.post('/postUpdateMarksFaculty',passport.authenticate('jwt',{session:false}),facultyController().postUpdateMarksFaculty);
 };
 
 module.exports = initRoute;
