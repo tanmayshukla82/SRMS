@@ -1,3 +1,29 @@
+<script>
+  function validateForm(){
+  const mark = document.uploadMarksForm.mark;
+  const examType = document.uploadMarksForm.examType.value;
+  if(examType === "Mid Term")
+  {
+    totalMarks = Number(50);
+  }
+  else if(examType === "End Term")
+  {
+    totalMarks = Number(100);
+  }
+  
+  const arr = [];
+  for(let i=0;i<mark.length;i++)
+  {
+    arr.push(mark[i].value);
+  }
+  for(let i=0;i<arr.length;i++){
+    if(Number(arr[i])<0 || Number(arr[i])>totalMarks)
+    {
+      alert("Mark entered are out of range");
+      return false;
+    }
+  }}
+</script>
 <div class="m-auto w-4/5 scrollable">
    
     <form action="/postUpdateMarksFaculty" method="post" name="uploadMarksForm" onsubmit="return validateForm()">
