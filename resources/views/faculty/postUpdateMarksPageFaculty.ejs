@@ -1,6 +1,6 @@
 <div class="m-auto w-4/5 scrollable">
    
-    <form action="/studentMarksFaculty" method="post" name="uploadMarksForm" onsubmit="return validateForm()">
+    <form action="/postUpdateMarksFaculty" method="post" name="uploadMarksForm" onsubmit="return validateForm()">
         <%if(messages.error){%>
         <span class="text-red-500 text-sm"><%= messages.error%></span>
         <%}%>
