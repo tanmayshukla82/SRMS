@@ -48,7 +48,7 @@ function profileController()
                 );
                 } else {
                     req.flash("error","Password Incorrect");
-                    return res.render('./auth/admin.ejs',{layout : './layouts/studentLogin.ejs'});
+                    return res.render('./auth/student.ejs',{layout : './layouts/studentLogin.ejs'});
                 }
             });
         } catch (error) {
