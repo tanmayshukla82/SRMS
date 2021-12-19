@@ -155,7 +155,7 @@ function facultyController(){
                 return res.status(200).render('./faculty/postUpdateMarksPageFaculty.ejs',{layout : './layouts/facultyDashboard.ejs',marksWithSubject,stud : stud[0],examType});
             } catch (error) {
                 req.flash("error","Error in updating marks");
-                return res.status(400).render('./faculty/updateMarksFaculty',{layout : './layouts/facultyDashboard.ejs'})
+                return res.status(400).render('./faculty/updateMarksFaculty.ejs',{layout : './layouts/facultyDashboard.ejs'})
             }
         },
          postUpdateMarksFaculty : async(req,res)=>{
@@ -165,15 +165,15 @@ function facultyController(){
                 for(let i=0;i<subjectCode.length;i++)
                 {
                     const s = await Subject.findOne({subjectCode:subjectCode[i]});
-                    const m = await Marks.findOne({student:stud[0],subject:s._id});
+                    const m = await Marks.findOne({student:stud[0]._id,subject:s._id,examType});
                     m.marks = mark[i];
                     await m.save();
                 }
                 req.flash('success','Marks updated successfully');
-                return res.status(200).render('./admin/updateMarks.ejs',{layout : './layouts/adminDashboard.ejs'});
+                return res.status(200).render('./faculty/updateMarksFaculty.ejs',{layout : './layouts/facultyDashboard.ejs'});
             } catch (error) {
                 req.flash('error','Error in updating marks');
-                return res.status(400).render('./admin/postUpdateMarksPage.ejs',{layout : './layouts/adminDashboard.ejs'});
+                return res.status(400).render('./faculty/updateMarksFaculty.ejs',{layout : './layouts/facultyDashboard.ejs'});
             }
         },
         updatePassword : async(req, res)=>{

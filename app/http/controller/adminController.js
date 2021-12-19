@@ -423,6 +423,7 @@ function adminController(){
             try {
                 const {registrationNumber, subjectCode, subjectName, mark,examType} = req.body;
                 const stud = await Student.find({registrationNumber});
+               
                 for(let i=0;i<subjectCode.length;i++)
                 {
                     const s = await Subject.findOne({subjectCode:subjectCode[i]});
@@ -435,7 +436,7 @@ function adminController(){
             } catch (error) {
                 req.flash('error','Error in updating marks');
                 return res.status(400).render('./admin/postUpdateMarksPage.ejs',{layout : './layouts/adminDashboard.ejs'});
-            }
+            } 
         },
         prePublish : (req, res)=>{
             return res.status(200).render('./admin/prePublish.ejs',{layout : './layouts/adminDashboard.ejs'});
