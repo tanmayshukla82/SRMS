@@ -37,7 +37,7 @@ function facultyController(){
                         payload,
                         process.env.JWT_SECRET,
                         {
-                          expiresIn: '30s' 
+                          expiresIn: '3h' 
                         },
                         (err, token) => {
                           res.cookie('jwt',
